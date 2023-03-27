@@ -1,11 +1,14 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
-    path('getid/<str:username>/<str:password>/',views.GetUserId.as_view()),
-    path('createuser/',views.CreateUser.as_view()),
-    path('users/<int:id>/projects/create/',views.CreateProject.as_view()),
-    path('users/<int:id>',views.UserProjectList.as_view()),
-    path('users/<int:id>/projects/<int:pid>/notes/create',views.CreateNote.as_view()),
-    path('users/<int:id>/projects/<int:pid>/notes/',views.ProjectNoteList.as_view()),
-    path('users/<int:id>/projects/<int:pid>/notes/<int:nid>/update/',views.NoteUpdate.as_view())
+    path('users/', views.create_user),
+    path('users/<int:id>/projects/', views.create_project),
+    path('users/<int:id>/projectslist/', views.user_project_list),
+    path('users/<int:id>/projects/<int:pid>/notes/', views.create_note),
+    path('users/<int:id>/projects/<int:pid>/noteslist/', views.project_note_list),
+    path('users/<int:id>/projects/<int:pid>/notes/<int:nid>/', views.note_update),
+    path('users/<str:username>/<str:password>/', views.get_user_id),
+    path('users/<int:id>/projects/<int:pid>/', views.delete_project),
+    path('users/<int:id>/projects/<int:pid>/notes/<int:nid>/', views.delete_note),
 ]
