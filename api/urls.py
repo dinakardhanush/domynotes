@@ -11,7 +11,5 @@ urlpatterns = [
     path('users/<str:username>/<str:password>/', views.get_user_id),
     path('users/<int:id>/projects/<int:pid>/', views.delete_project),
     path('users/<int:id>/projects/<int:pid>/notes/<int:nid>/', views.delete_note),
-    # path('search_notes/', views.search_notes, name='search_notes'),
-
     path('users/<int:id>/projects/<int:pid>/notes/search/<str:notename>/', views.search_notes),
 ]
