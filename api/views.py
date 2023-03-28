@@ -1,11 +1,10 @@
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from django.db.models import Q
 from . import models, serializers
-
 
 
 @api_view(['POST'])
@@ -110,3 +109,20 @@ def delete_note(request, id, pid, nid):
         return Response({"error": "Note not found."}, status=status.HTTP_404_NOT_FOUND)
     except Exception as e:
         return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def search_notes(request, id, pid, notename):
+    try:
+        notes = models.NoteModel.objects.filter(
+            project__user=id,
+            project_id=pid,
+            notename__icontains=notename,
+        )
+        serializer = serializers.NoteSerializer(notes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except models.ProjectModel.DoesNotExist:
+        return Response({'error': 'Project not found.'}, status=status.HTTP_404_NOT_FOUND)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
